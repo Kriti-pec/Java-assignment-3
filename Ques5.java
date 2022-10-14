@@ -8,10 +8,10 @@ public class Ques5 {
     static ArrayList<ArrayList<String>> arrs = new ArrayList<ArrayList<String>>();
 
     // Function to print the steps
-    static void printAllChanges(String s1, String s2, ArrayList<String> changes,int[][] cost) {
+    static void printAllChanges(String word1, String word2, ArrayList<String> changes,int[][] cost) {
 
-        int i = s1.length();
-        int j = s2.length();
+        int i = word1.length();
+        int j = word2.length();
 
         // Iterate till end
         while (true) {
@@ -23,7 +23,7 @@ public class Ques5 {
             }
 
             // If same
-            if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+            if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
                 i--;
                 j--;
             }
@@ -35,8 +35,7 @@ public class Ques5 {
                 if (cost[i][j] == cost[i - 1][j - 1] + 1) {
 
                     // Add this step
-                    changes.add("Change " + s1.charAt(i - 1)
-                            + " to " + s2.charAt(j - 1));
+                    changes.add("Change " + word1.charAt(i - 1) + " to " + word2.charAt(j - 1));
                     i--;
                     j--;
 
@@ -47,24 +46,24 @@ public class Ques5 {
                 // Delete
                 if (cost[i][j] == cost[i - 1][j] + 1) {
                     if (if1 == false) {
-                        changes.add("Delete " + s1.charAt(i - 1));
+                        changes.add("Delete " + word1.charAt(i - 1));
                         i--;
                     } else {
                         // If the previous method was true,
                         // create a new list as a copy of previous.
-                        ArrayList<String> changes2 = new ArrayList<String>();
-                        changes2.addAll(changes);
+                        ArrayList<String> changeword2 = new ArrayList<String>();
+                        changeword2.addAll(changes);
 
                         // Remove last operation
-                        changes2.remove(changes.size() - 1);
+                        changeword2.remove(changes.size() - 1);
 
                         // Add this new operation
-                        changes2.add("Delete " + s1.charAt(i));
+                        changeword2.add("Delete " + word1.charAt(i));
 
                         // initiate new new instance of this
                         // function with remaining substrings
-                        printAllChanges(s1.substring(0, i),
-                                s2.substring(0, j + 1), changes2,cost);
+                        printAllChanges(word1.substring(0, i),
+                                word2.substring(0, j + 1), changeword2,cost);
                     }
 
                     if2 = true;
@@ -73,28 +72,28 @@ public class Ques5 {
                 // Add character step
                 if (cost[i][j] == cost[i][j - 1] + 1) {
                     if (if1 == false && if2 == false) {
-                        changes.add("Add " + s2.charAt(j - 1));
+                        changes.add("Add " + word2.charAt(j - 1));
                         j--;
                     } else {
 
                         // Add steps
-                        ArrayList<String> changes2 = new ArrayList<String>();
-                        changes2.addAll(changes);
-                        changes2.remove(changes.size() - 1);
-                        changes2.add("Add " + s2.charAt(j));
+                        ArrayList<String> changeword2 = new ArrayList<String>();
+                        changeword2.addAll(changes);
+                        changeword2.remove(changes.size() - 1);
+                        changeword2.add("Add " + word2.charAt(j));
 
                         // Recursively call for the next steps
-                        printAllChanges(s1.substring(0, i + 1), s2.substring(0, j), changes2,cost);
+                        printAllChanges(word1.substring(0, i + 1), word2.substring(0, j), changeword2,cost);
                     }
                 }
             }
         }
     }
 
-    static void printWays(String s1, String s2, ArrayList<String> changes,int[][] cost) {
+    static void printWays(String word1, String word2, ArrayList<String> changes,int[][] cost) {
 
         // Function to print all the ways
-        printAllChanges(s1, s2, new ArrayList<String>(),cost);
+        printAllChanges(word1, word2, new ArrayList<String>(),cost);
 
         int i = 1;
 
@@ -141,18 +140,18 @@ public class Ques5 {
 
     // Driver Code
     public static void main(String[] args) throws Exception {
-        // Take the strings input s1 and s2 to be compared
+        // Take the strings input word1 and word2 to be compared
         Scanner s = new Scanner(System.in);
         System.out.print("Input string 1 ");
-        String s1 = s.nextLine();
+        String word1 = s.nextLine();
         System.out.print("Input string 2 ");
-        String s2 = s.nextLine();
+        String word2 = s.nextLine();
 
         // calculate the cost matrix
-        int[][] cost = costArray(s1, s2);
+        int[][] cost = costArray(word1, word2);
 
         // print the steps
-        printWays(s1, s2, new ArrayList<String>(),cost);
+        printWays(word1, word2, new ArrayList<String>(),cost);
 
     }
 }
